@@ -796,5 +796,6 @@ def logout():
     flash("You have been logged out.")
     return redirect(url_for('login'))  # Redirect to login page
 
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=10000)
