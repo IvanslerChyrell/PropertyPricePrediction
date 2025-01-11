@@ -27,18 +27,33 @@ size_type_options = list(le_size_type.classes_)
 
 app.secret_key = 'your_secret_key'  # Secret key for flash messages
 
-# Load environment variables from .env file
-load_dotenv()
+app = Flask(__name__)
 
-# Database connection function
+class Config:
+    DB_HOST = os.environ.get('DB_HOST', 'localhost')  # Change to your DB host if needed
+    DB_USER = os.environ.get('DB_USER', 'root')
+    DB_PASSWORD = os.environ.get('DB_PASSWORD', 'your_password')
+    DB_NAME = os.environ.get('DB_NAME', 'property_prediction')
+
+# Database connection settings
+app.config['DB_HOST'] = 'localhost'       # Database host
+app.config['DB_USER'] = 'root'            # Database username
+app.config['DB_PASSWORD'] = ''            # Database password
+app.config['DB_NAME'] = 'property_prediction'  # Database name
+
+# Secret key for Flask sessions
+app.secret_key = 'your_secret_key'
+
+# Function to connect to the database
 def get_db_connection():
     conn = mysql.connector.connect(
-        host=os.getenv('DB_HOST', 'localhost'),
-        user=os.getenv('DB_USER', 'root'),
-        password=os.getenv('DB_PASSWORD', ''),
-        database=os.getenv('DB_NAME', 'property_prediction')
+        host='localhost',         # Database host
+        user='root',              # Database user
+        password='',              # Your database password
+        database='property_prediction'  # Your database name
     )
     return conn
+
 # Route for the sign-up form
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
