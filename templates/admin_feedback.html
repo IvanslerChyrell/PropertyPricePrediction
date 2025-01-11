@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - View Feedback</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+            color: #333;
+        }
+        .main-content {
+            margin-left: 250px;
+            padding: 40px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+    <div class="flex">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">Property Price Predictor</div>
+            <nav>
+                <ul>
+                    <li><a href="/admin_dashboard" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="/admin/users"><i class="fas fa-users"></i> User Management</a></li>
+                    <li><a href="/admin/feedback"><i class="fas fa-comments"></i> View Feedback</a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </nav>
+            <div class="logout-container">
+                <button class="logout" onclick="logout()" aria-label="Logout">Logout</button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <h1>Feedback from Users</h1>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Rating</th>
+                        <th>Comments</th>
+                        <th>Date Submitted</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for feedback in feedbacks %}
+                        <tr>
+                            <td>{{ feedback['user_id'] }}</td>
+                            <td>{{ feedback['name'] }}</td>
+                            <td>{{ feedback['email'] }}</td>
+                            <td>{{ feedback['phone'] }}</td>
+                            <td>{{ feedback['rating'] }}</td>
+                            <td>{{ feedback['comments'] }}</td>
+                            <td>{{ feedback['created_at'] }}</td>
+                            <td>
+                            <!-- Mark as Read Link -->
+                            <a href="{{ url_for('read_feedback', feedback_id=feedback['id']) }}" class="text-green-500 hover:text-green-700">Mark as Read</a>
+
+                            <!-- Delete Link -->
+                            <a href="{{ url_for('delete_feedback', comment=feedback['comments']) }}" class="text-red-500 hover:text-red-700">Delete</a>
+                        </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function logout() {
+            window.location.href = "/logout";
+        }
+    </script>
+</body>
+</html>

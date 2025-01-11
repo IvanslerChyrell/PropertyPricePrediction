@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - User Management</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f7f7f7;
+      color: #333;
+    }
+    .main-content {
+      margin-left: 250px;
+      padding: 40px;
+      flex-grow: 1;
+      background-color: #f7f7f7;
+      overflow-y: auto;
+    }
+    h1 {
+      font-size: 30px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .user-table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+    }
+    .user-table th, .user-table td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    .user-table th {
+      background-color: #008080;
+      color: white;
+    }
+    .user-table td {
+      font-size: 16px;
+    }
+    .action-buttons a {
+      padding: 8px 12px;
+      margin-right: 8px;
+      border-radius: 5px;
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .action-buttons .edit-btn {
+      background-color: #5bc0de;
+    }
+    .action-buttons .delete-btn {
+      background-color: #d9534f;
+    }
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .pagination button {
+      background-color: #008080;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 0 5px;
+      font-size: 16px;
+    }
+    .pagination button:hover {
+      background-color: #005757;
+    }
+  </style>
+</head>
+<body>
+  <div class="flex">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="logo">Property Price Predictor</div>
+      <nav>
+       <ul>
+    <li><a href="/admin_dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+    <li><a href="/admin/users" class="active"><i class="fas fa-users"></i> User Management</a></li>
+         <li><a href="/admin/feedback" class="active"><i class="fas fa-comment-alt"></i> View User Feedback</a></li> <!-- New Link to View User Feedback -->
+    <li><a href="/admin/settings"><i class="fas fa-cog"></i> Settings</a></li>
+</ul>
+      </nav>
+      <div class="logout-container">
+        <button class="logout" onclick="logout()" aria-label="Logout">Logout</button>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <h1>User Management</h1>
+
+      <!-- Users Table -->
+      <table class="user-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Created At</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for user in users %}
+    <tr>
+      <td>{{ user.id }}</td>
+      <td>{{ user.name }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.phone }}</td>
+      <td>{{ user.created_at }}</td>
+      <td class="action-buttons">
+        <!-- Edit button link -->
+        <a href="/admin/users/edit/{{ user.id }}" class="edit-btn">Edit</a>
+
+        <!-- Delete button using a form that sends a POST request -->
+        <form action="/admin/users/delete/{{ user.id }}" method="POST" style="display: inline;">
+          <button type="submit" class="delete-btn" onclick="return confirm('Are you sure you want to delete this user?');">
+            Delete
+          </button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+      <!-- Pagination -->
+      <div class="pagination">
+        <button>Previous</button>
+        <button>Next</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function logout() {
+      window.location.href = "/logout";
+    }
+  </script>
+</body>
+</html>

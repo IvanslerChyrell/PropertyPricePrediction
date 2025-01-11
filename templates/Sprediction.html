@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saved Predictions - Property Predictor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+    <!-- Bootstrap JS (Make sure this is included) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <style>
+        /* General styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f7f7f7;
+            color: #333;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header Section (Fixed Header) */
+        .header-area {
+            background: #222;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .header-area .main-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-area .logo {
+            font-size: 30px;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+            background: linear-gradient(45deg, #1abc9c, #3498db);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: transform 0.3s ease;
+        }
+
+        .header-area .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .header-area ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .header-area ul li {
+            margin-left: 20px;
+        }
+
+        .header-area ul li a {
+            color: #fff;
+            font-size: 16px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .header-area ul li a:hover {
+            color: #1abc9c;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding-top: 80px;
+            padding: 30px;
+        }
+
+        .main-content h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #1abc9c;
+        }
+
+        /* Saved Predictions Section */
+        .saved-predictions {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid layout */
+            gap: 20px; /* Space between grid items */
+            background-color: #2c3e50;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .saved-predictions h2 {
+            grid-column: span 3; /* Make title span all columns */
+            color: #ecf0f1;
+            margin: 0 0 20px 0;
+        }
+
+        .prediction-card {
+            background-color: #34495e;
+            border: 1px solid #7f8c8d;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .prediction-card:hover {
+            transform: translateY(-5px); /* Lift effect on hover */
+        }
+
+        .prediction-card h3 {
+            font-size: 18px;
+            margin: 10px 0;
+            color: #1abc9c;
+        }
+
+        .prediction-card p {
+            margin: 5px 0;
+            color: #bdc3c7;
+        }
+
+        .button-container {
+            margin-top: 10px;
+        }
+
+        .button-container button {
+            background-color: #1abc9c; /* Button color */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            margin-right: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .button-container button:hover {
+            background-color: #16a085; /* Slightly darker on hover */
+        }
+
+        .delete-button {
+            background-color: #e74c3c; /* Red for delete */
+        }
+
+        .delete-button:hover {
+            background-color: #c0392b; /* Darker red on hover */
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .pagination button {
+            background-color: #1abc9c;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 30px;
+            margin: 0 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .pagination button:hover {
+            background-color: #16a085;
+        }
+
+        /* Notification and Welcome */
+        .notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+
+
+        .notification-icon .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 3px 6px;
+            font-size: 12px;
+        }
+
+        .notification-dropdown {
+            display: none;
+            position: absolute;
+            top: 30px;
+            right: 0;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 250px;
+            border-radius: 6px;
+            padding: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .notification-dropdown ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .notification-dropdown li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .notification-dropdown li:hover {
+            background-color: #f5f5f5;
+        }
+
+        .notification-icon.active + .notification-dropdown {
+            display: block;
+        }
+
+        .welcome-message {
+            font-size: 16px;
+            color: #1abc9c;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<main>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            <a href="index.html" class="logo-text">Property Price Predictor</a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/dashboard"><i class="fas fa-home"></i><span class="nav-text">Dashboard</span></a></li>
+                <li><a href="/Sprediction"><i class="fas fa-save"></i><span class="nav-text">Saved Predictions</span></a></li>
+                <li><a href="/prediction"><i class="fas fa-chart-line"></i><span class="nav-text">Prediction</span></a></li>
+                <li><a href="/setting"><i class="fas fa-cog"></i><span class="nav-text">Setting</span></a></li>
+                <li><a href="/feedback"><i class="fas fa-comment-dots"></i><span class="nav-text">Feedback</span></a></li>
+            </ul>
+        </nav>
+        <div class="logout-container">
+            <button class="logout" onclick="logout()" aria-label="Logout">Logout</button>
+        </div>
+    </aside>
+
+    <div class="main-content">
+        <h1>Your Saved Predictions</h1>
+
+        <section class="section">
+            <div class="saved-predictions">
+                <!-- Dynamically rendered saved prediction cards -->
+                {% for prediction in saved_predictions %}
+                    <div class="prediction-card">
+                        <h3>{{ prediction.location }}</h3>
+                        <p>Predicted Price: RM {{ prediction.predicted_price }}</p>
+
+                        <div class="button-container">
+                             <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#detailsModal"
+                data-location="{{ prediction.location }}"
+                data-price="{{ prediction.predicted_price }}"
+                data-rooms="{{ prediction.rooms }}"
+                data-bathrooms="{{ prediction.bathrooms }}"
+                data-car-parks="{{ prediction.car_parks }}"
+                data-property-type-supergroup="{{ prediction.property_type_supergroup }}"
+                data-size-type="{{ prediction.size_type }}"
+                data-size-value="{{ prediction.size_value }}"
+                data-furnishing="{{ prediction.furnishing }}">
+            View Details
+        </button>
+                             <form action="{{ url_for('delete_prediction', location=prediction.location) }}" method="POST" style="display:inline;">
+    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this prediction?')">Delete</button>
+</form>
+
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button onclick="prevPage()">Previous</button>
+                <button onclick="nextPage()">Next</button>
+            </div>
+
+        </section>
+
+<!-- Modal Structure -->
+<div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailsModalLabel">Property Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Location:</strong> <span id="modal-location"></span></p>
+                <p><strong>Predicted Price:</strong> RM <span id="modal-price"></span></p>
+                <p><strong>Rooms:</strong> <span id="modal-rooms"></span></p>
+                <p><strong>Bathrooms:</strong> <span id="modal-bathrooms"></span></p>
+                <p><strong>Car Parks:</strong> <span id="modal-car-parks"></span></p>
+                <p><strong>Property Type:</strong> <span id="modal-property-type"></span></p>
+                <p><strong>Size:</strong> <span id="modal-size"></span></p>
+                <p><strong>Furnishing:</strong> <span id="modal-furnishing"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    </div>
+</main>
+
+<script>
+           // Ensure modal opens only when "View Details" button is clicked
+    const modal = document.getElementById('detailsModal');
+    const modalLocation = document.getElementById('modal-location');
+    const modalPrice = document.getElementById('modal-price');
+    const modalRooms = document.getElementById('modal-rooms');
+    const modalBathrooms = document.getElementById('modal-bathrooms');
+    const modalCarParks = document.getElementById('modal-car-parks');
+    const modalPropertyType = document.getElementById('modal-property-type');
+    const modalSize = document.getElementById('modal-size');
+    const modalFurnishing = document.getElementById('modal-furnishing');
+
+    // Modal event listener
+    modal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget; // Button that triggered the modal
+
+        // Get data attributes from the clicked button and update modal content
+        modalLocation.textContent = button.getAttribute('data-location');
+        modalPrice.textContent = button.getAttribute('data-price');
+        modalRooms.textContent = button.getAttribute('data-rooms');
+        modalBathrooms.textContent = button.getAttribute('data-bathrooms');
+        modalCarParks.textContent = button.getAttribute('data-car-parks');
+        modalPropertyType.textContent = button.getAttribute('data-property-type-supergroup');
+        modalSize.textContent = button.getAttribute('data-size-type') + " " + button.getAttribute('data-size-value');
+        modalFurnishing.textContent = button.getAttribute('data-furnishing');
+    });
+
+
+function deletePrediction(location) {
+    // Confirm deletion
+    if (!confirm('Are you sure you want to delete this prediction?')) {
+        return;
+    }
+
+    // Send AJAX request to delete the prediction
+    $.ajax({
+        url: '/delete_prediction/' + location,
+        method: 'POST',
+        data: {
+            // You can add additional data if needed (e.g., CSRF token)
+        },
+        success: function(response) {
+            if (response.status === 'success') {
+                // Remove the deleted prediction card from the DOM
+                $('#prediction-card-' + location).remove();
+            } else {
+                alert('Error: ' + response.message);
+            }
+        },
+        error: function() {
+            alert('An error occurred while deleting the prediction.');
+        }
+    });
+}
+
+
+
+
+// Add functionality for notifications toggle
+function toggleNotifications() {
+document.querySelector('.notification-icon').classList.toggle('active');
+}
+
+// Example pagination functions
+function prevPage() {
+// Logic to go to the previous page
+}
+
+function nextPage() {
+// Logic to go to the next page
+}
+
+function logout() {
+window.location.href = "/logout";
+}
+</script>
+</body>
+</html>

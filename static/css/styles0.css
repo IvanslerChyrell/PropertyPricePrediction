@@ -1,0 +1,387 @@
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body and overall page styles */
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url("../images/pexels-pixabay-280222.jpg") no-repeat center center fixed;
+    background-size: cover;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Navbar Styles */
+.navbar {
+    background-color: #333; /* Match the old navbar color */
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+/* Flex container to align items */
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10 10px;
+}
+
+/* Logo Style */
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    background: linear-gradient(45deg, #ff6b6b, #ffed5f); /* Old logo gradient color */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+/* Logo Hover Effect */
+.logo:hover {
+    transform: scale(1.1);
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Navbar Links */
+.navbar .nav-links {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.navbar .nav-links li {
+    margin-left: 20px;
+}
+
+.navbar .nav-links li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+/* Navbar Links Hover Effect */
+.navbar .nav-links li a:hover {
+    color: #ff6b6b; /* Adjust to match the previous highlight color */
+    transform: scale(1.1);
+    text-decoration: none; /* Ensures no underline on hover */
+}
+
+/* Login Button */
+.navbar .login-btn a {
+    background-color: #ffed5f; /* Previous button color */
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+/* Login Button Hover Effect */
+.navbar .login-btn a:hover {
+    background-color: #ff6b6b;
+}
+/* Hero Section */
+.hero {
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #f6f6f6;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.cta-btn {
+    background-color: #ffed5f; /* Previous call to action button color */
+    padding: 15px 30px;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.cta-btn:hover {
+    background-color: #ff6b6b;
+}
+
+/* Features Section */
+.features {
+    padding: 60px 0;
+    background-color: #fff;
+}
+
+.features .container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.feature {
+    text-align: center;
+    width: 30%;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.feature i {
+    font-size: 50px;
+    color: #ff6b6b; /* Adjust icon color to previous button color */
+    margin-bottom: 15px;
+}
+
+.feature h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.feature p {
+    font-size: 1rem;
+    color: #666;
+}
+
+/* About Section */
+.about {
+    padding: 60px 0;
+    background-color: #f4f4f4;
+}
+
+.about .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.about h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.about p {
+    font-size: 1.2rem;
+    color: #666;
+    line-height: 1.6;
+}
+
+/* Contact Section */
+.contact {
+    padding: 60px 0;
+    background-color: #fff;
+}
+
+.contact .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.contact h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.contact .contact-form {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: left;
+    background-color: #f9f9f9;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.contact .form-group {
+    margin-bottom: 20px;
+}
+
+.contact label {
+    display: block;
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.contact input, .contact textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+.contact textarea {
+    height: 150px;
+    resize: vertical;
+}
+
+.contact .submit-btn {
+    background-color: #ffed5f; /* Previous submit button color */
+    color: #333;
+    padding: 10px 20px;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.contact .submit-btn:hover {
+    background-color: #e0b10e;
+}
+
+/* Footer Styles */
+.footer {
+  background-color: #333; /* Previous footer color */
+  color: #fff;
+  padding: 40px 0;
+  text-align: center;
+}
+
+.footer .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.footer-column {
+  width: 30%;
+}
+
+.footer-column h3 {
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+  color: #fff;
+}
+
+.footer-column a {
+  color: #ddd;
+  text-decoration: none;
+  font-size: 1rem;
+  display: block;
+  margin-bottom: 8px;
+  transition: color 0.3s ease;
+}
+
+.footer-column a:hover {
+  color: #ff6b6b; /* Adjust hover color to match the old design */
+}
+
+.social-links a {
+  font-size: 1.5rem;
+  margin-right: 15px;
+  color: #ddd;
+  transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+  color: #ffed5f; /* Adjust to previous hover color */
+}
+
+.newsletter input {
+  padding: 10px;
+  width: 70%;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.newsletter button {
+  padding: 10px 20px;
+  background-color: #ffed5f; /* Previous button color */
+  color: #333;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.newsletter button:hover {
+  background-color: #e0b10e;
+}
+
+/* Footer Bottom */
+.footer-bottom {
+  margin-top: 40px;
+}
+
+.decorative-line {
+  width: 100px;
+  height: 2px;
+  background-color: #ffed5f; /* Match previous footer line color */
+  margin: 0 auto;
+  margin-bottom: 10px;
+}
+
+.footer-bottom p {
+  font-size: 1rem;
+  margin: 10px 0;
+}
+
+.decorative-circles {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.decorative-circle {
+  width: 10px;
+  height: 10px;
+  background-color: #ffed5f; /* Match the old design circle color */
+  border-radius: 50%;
+  margin: 0 5px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer-column {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .newsletter input {
+    width: 80%;
+  }
+}

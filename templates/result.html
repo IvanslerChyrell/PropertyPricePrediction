@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <style>
+        /* General Page Styling */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Container for the Game-like Result Display */
+        .result-container {
+            text-align: center;
+            padding: 40px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            max-width: 450px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Logo Styling */
+        .logo {
+            font-size: 25px;
+            font-weight: 700;
+            text-decoration: none;
+            background: linear-gradient(45deg, #ff6b6b, #ffed5f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+
+        /* Logo Hover Effect */
+        .logo:hover {
+            transform: scale(1.05);
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Prediction Result Title */
+        h1 {
+            font-size: 30px;
+            color: #333;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Simplified RM Prediction Result */
+        .prediction-price {
+            font-size: 40px;
+            font-weight: bold;
+            color: #333; /* Simple color for result */
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f0f0f0; /* Soft background */
+            border-radius: 10px;
+            white-space: normal; /* Allow text to wrap if it's too long */
+            word-wrap: break-word; /* Ensure long words break if needed */
+            max-height: 150px; /* Set a max height for the container */
+            overflow-y: auto; /* Allow scrolling if the content exceeds the max height */
+            animation: popIn 0.5s ease-out;
+        }
+
+        /* Save Button Styling */
+        .save-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #4CAF50; /* Green background */
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 30px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            margin-top: 30px;
+        }
+
+        .save-button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+
+        /* Back Button Styling */
+        .back-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #ff6b6b;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 30px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .back-button:hover {
+            background-color: #e05151;
+            transform: scale(1.05);
+        }
+
+        /* Animation for Result Display */
+        @keyframes popIn {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="result-container">
+        <!-- Logo at Top -->
+        <a href="/dashboard" class="logo">Property Price Predictor</a>
+
+        <!-- Prediction Title and Result -->
+        <h1>Estimated Price</h1>
+        <p class="prediction-price">RM {{ prediction }}</p>
+
+        <!-- Save Button -->
+        <a href="{{ url_for('save_prediction') }}" class="save-button">Save Prediction</a>
+
+        <!-- Go Back to Form Button -->
+        <a href="{{ url_for('go_back_to_form') }}" class="back-button">Go Back to Form</a>
+    </div>
+</body>
+</html>

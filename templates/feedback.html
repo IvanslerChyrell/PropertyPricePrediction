@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback - Property Price Predictor</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+
+     /* Main Content */
+.main-content {
+    margin-left: 220px; /* Prevent overlap with sidebar */
+    margin-top: 60px; /* Offset for header */
+    padding: 20px;
+}
+
+/* Container for the form */
+.container {
+    max-width: 450px; /* Further reduce container width */
+    margin: 0 auto; /* Center the container */
+    padding: 10px; /* Reduced padding */
+    background-color: #fff;
+    border-radius: 10px; /* Slightly smaller radius */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+.header h1 {
+    font-size: 1.5rem; /* Smaller font size */
+    margin-bottom: 8px; /* Reduced margin */
+    color: #333;
+}
+
+.header p {
+    font-size: 0.9rem; /* Adjusted size */
+    color: #666;
+    margin-bottom: 15px; /* Reduced margin */
+}
+
+/* Feedback Section */
+.feedback-section {
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Feedback Form Styles */
+.feedback-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Further reduced gap between form fields */
+    position: sticky;
+    top: 20px; /* Distance from the top when the form becomes sticky */
+    z-index: 10; /* Ensure the form stays above other content */
+}
+
+/* Form Group Styles */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 3px; /* Reduced gap between label and input */
+}
+
+label {
+    font-size: 0.85rem; /* Smaller label size */
+    color: #333;
+}
+
+input[type="text"], input[type="email"], input[type="tel"], textarea {
+    padding: 6px 10px; /* Even smaller padding */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.85rem; /* Smaller font size */
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus, input[type="email"]:focus, input[type="tel"]:focus, textarea:focus {
+    border-color: #ff6b6b;
+}
+
+textarea {
+    resize: vertical;
+    height: 60px; /* Reduce height even further */
+}
+
+/* Rating Style */
+.rating legend {
+    font-size: 0.9rem; /* Smaller legend size */
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.rating label {
+    font-size: 0.85rem; /* Smaller rating label size */
+    color: #333;
+    margin-right: 12px;
+}
+
+/* Submit Button */
+.submit-button {
+    background-color: #ff6b6b;
+    color: white;
+    padding: 8px 12px; /* Reduced padding */
+    border: none;
+    border-radius: 4px; /* Slightly smaller radius */
+    font-size: 0.9rem; /* Smaller font size */
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+    background-color: #e63946;
+}
+
+    </style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<aside class="sidebar">
+    <div class="logo">
+        <a href="/" class="logo-text">Property Price Predictor</a>
+    </div>
+    <nav>
+            <ul>
+                <li><a href="/dashboard"><i class="fas fa-home"></i><span class="nav-text">Dashboard</span></a></li>
+                <li><a href="/Sprediction"><i class="fas fa-save"></i><span class="nav-text">Saved Prediction</span></a></li>
+                <li><a href="/prediction"><i class="fas fa-chart-line"></i><span class="nav-text">Prediction</span></a></li>
+                <li><a href="/setting"><i class="fas fa-cog"></i><span class="nav-text">Setting</span></a></li>
+                <li><a href="/feedback"><i class="fas fa-comment-dots"></i><span class="nav-text">Feedback</span></a></li>
+            </ul>
+    </nav>
+    <div class="logout-container">
+        <button class="logout" onclick="logout()">Logout</button>
+    </div>
+</aside>
+
+<!-- Main Content -->
+<div class="main-content">
+    <div class="container">
+        <div class="header">
+            <h1>We Value Your Feedback</h1>
+            <p>Help us improve by sharing your experience with us.</p>
+        </div>
+
+        <!-- Feedback Section -->
+        <section class="feedback-section">
+            <!-- Feedback Form -->
+            <form action="{{ url_for('feedback') }}" method="POST" class="feedback-form">
+                <div class="form-group">
+                    <label for="name">Your Name:</label>
+                    <input type="text" name="name" id="name" placeholder="Enter your name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Your Email:</label>
+                    <input type="email" name="email" id="email" placeholder="Enter your email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Your Phone:</label>
+                    <input type="tel" name="phone" id="phone" placeholder="Enter your phone number" required>
+                </div>
+
+                <div class="form-group rating">
+                    <legend>How satisfied were you with our product/service?</legend>
+                    <label><input type="radio" name="rating" value="5" required> Excellent</label>
+                    <label><input type="radio" name="rating" value="4"> Good</label>
+                    <label><input type="radio" name="rating" value="3"> Neutral</label>
+                    <label><input type="radio" name="rating" value="2"> Poor</label>
+                </div>
+
+                <div class="form-group">
+                    <label for="comments">Additional Comments:</label>
+                    <textarea name="comments" id="comments" placeholder="Provide any additional feedback" rows="5" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="submit-button">Submit Feedback</button>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+
+
+
+<script>
+
+
+
+    function logout() {
+        window.location.href = "/logout";
+    }
+</script>
+
+</body>
+</html>

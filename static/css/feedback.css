@@ -1,0 +1,71 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  background: url('path_to_background_image.jpg') no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.feedback-container {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.feedback-container h1 {
+  margin-bottom: 15px;
+}
+
+.feedback-container p, .feedback-container h2, .feedback-container h3 {
+  margin: 10px 0;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+}
+
+.radio-group label {
+  cursor: pointer;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.radio-group input[type="radio"] {
+  margin-right: 10px;
+}
+
+.feedback-container textarea, .user-info input {
+  width: calc(100% - 20px);
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 8px 0;
+  background-color: #333;
+  color: #fff;
+}
+
+.feedback-container button {
+  width: 100%;
+  padding: 10px;
+  background-color: #ff6b6b;
+  border: none;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 15px;
+}
+
+.feedback-container button:hover {
+  background-color: #e05656;
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saved Predictions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Saved Predictions</h1>
+
+        {% if saved_predictions %}
+        <table border="1" cellpadding="10">
+            <thead>
+                <tr>
+                    <th>Location</th>
+                    <th>Rooms</th>
+                    <th>Bathrooms</th>
+                    <th>Car Parks</th>
+                    <th>Furnishing</th>
+                    <th>Size Type</th>
+                    <th>Size Value</th>
+                    <th>Property Type Supergroup</th>
+                    <th>Predicted Price</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for prediction in saved_predictions %}
+                <tr>
+                    <td>{{ prediction.location }}</td>
+                    <td>{{ prediction.rooms }}</td>
+                    <td>{{ prediction.bathrooms }}</td>
+                    <td>{{ prediction.car_parks }}</td>
+                    <td>{{ prediction.furnishing }}</td>
+                    <td>{{ prediction.size_type }}</td>
+                    <td>{{ prediction.size_value }}</td>
+                    <td>{{ prediction.property_type_supergroup }}</td>
+                    <td>{{ prediction.predicted_price }}</td>
+                    <td>{{ prediction.timestamp }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No predictions saved yet!</p>
+        {% endif %}
+    </div>
+</body>
+</html>

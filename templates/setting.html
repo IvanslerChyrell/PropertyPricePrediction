@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Property Predictor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        /* Reset default margin and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Container styles */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex: 1;
+        }
+
+        /* Main content styles */
+        .main-content {
+            flex: 1;
+            margin-left: 220px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-content h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-section {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 20px;
+        }
+
+        .form-section h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #333;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .form-section h3 i {
+            font-size: 16px;
+            margin-left: 5px;
+        }
+
+        .form-section .form-content {
+            display: none;
+        }
+
+        .form-section .form-content.active {
+            display: block;
+        }
+
+        .form-section label {
+            display: block;
+            text-align: left;
+            margin-bottom: 10px;
+            color: #666;
+        }
+
+        .form-section input[type="text"],
+        .form-section input[type="email"],
+        .form-section input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .form-section button {
+            background-color: #008080;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-section button:hover {
+            background-color: #00b3b3;
+        }
+
+        .footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            width: 100%;
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            <a href="index.html" class="logo-text">Property Price Predictor</a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/dashboard"><i class="fas fa-home"></i><span class="nav-text">Dashboard</span></a></li>
+                <li><a href="/Sprediction"><i class="fas fa-save"></i><span class="nav-text">Saved Prediction</span></a></li>
+                <li><a href="/prediction"><i class="fas fa-chart-line"></i><span class="nav-text">Prediction</span></a></li>
+                <li><a href="/setting"><i class="fas fa-cog"></i><span class="nav-text">Setting</span></a></li>
+                <li><a href="/feedback"><i class="fas fa-comment-dots"></i><span class="nav-text">Feedback</span></a></li>
+            </ul>
+        </nav>
+        <div class="logout-container">
+            <button class="logout" onclick="logout()" aria-label="Logout">Logout</button>
+        </div>
+    </aside>
+
+    <div class="main-content">
+        <h1>Settings</h1>
+        <div class="form-container">
+            <!-- Change Email Section -->
+            <div class="form-section">
+                <h3 id="changeEmail">Change Email <i class="fas fa-chevron-down"></i></h3>
+                <div class="form-content" id="changeEmailContent">
+                    <form id="changeEmailForm" action="/setting" method="POST">
+                        <label for="currentEmail">Current Email:</label>
+                        <input type="email" id="currentEmail" name="currentEmail" value="{{ user.email }}" readonly>
+                        <label for="newEmail">New Email:</label>
+                        <input type="email" id="newEmail" name="newEmail" placeholder="Enter new email" required>
+                        <label for="currentPasswordEmail">Current Password:</label>
+                        <input type="password" id="currentPasswordEmail" name="currentPassword" placeholder="Enter current password" required>
+                        <button type="submit">Save Email</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Change Name Section -->
+            <div class="form-section">
+                <h3 id="changeName">Change Name <i class="fas fa-chevron-down"></i></h3>
+                <div class="form-content" id="changeNameContent">
+                    <form id="changeNameForm" action="/setting" method="POST">
+                        <label for="currentName">Current Name:</label>
+                        <input type="text" id="currentName" name="currentName" value="{{ user.name }}" readonly>
+                        <label for="newName">New Name:</label>
+                        <input type="text" id="newName" name="newName" placeholder="Enter new name" required>
+                        <label for="currentPasswordName">Current Password:</label>
+                        <input type="password" id="currentPasswordName" name="currentPassword" placeholder="Enter current password" required>
+                        <button type="submit">Save Name</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Change Password Section -->
+            <div class="form-section">
+                <h3 id="changePassword">Change Password <i class="fas fa-chevron-down"></i></h3>
+                <div class="form-content" id="changePasswordContent">
+                    <form id="changePasswordForm" action="/setting" method="POST">
+                        <label for="currentPassword">Current Password:</label>
+                        <input type="password" id="currentPassword" name="currentPassword" placeholder="Enter current password" required>
+                        <label for="newPassword">New Password:</label>
+                        <input type="password" id="newPassword" name="newPassword" placeholder="Enter new password" required>
+                        <label for="confirmNewPassword">Confirm New Password:</label>
+                        <input type="password" id="confirmNewPassword" name="confirmNewPassword" placeholder="Confirm new password" required>
+                        <button type="submit">Save Password</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for expanding sections -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('changeEmail').addEventListener('click', function() {
+                toggleSection('changeEmailContent');
+            });
+
+            document.getElementById('changeName').addEventListener('click', function() {
+                toggleSection('changeNameContent');
+            });
+
+            document.getElementById('changePassword').addEventListener('click', function() {
+                toggleSection('changePasswordContent');
+            });
+
+            function toggleSection(sectionId) {
+                var content = document.getElementById(sectionId);
+                content.classList.toggle('active');
+            }
+        });
+    </script>
+</body>
+</html>

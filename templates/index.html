@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Predict property prices with perfect accuracy using our Property Price Predictor.">
+    <meta name="keywords" content="property, price prediction, real estate, home value">
+    <meta name="author" content="Your Name">
+    <title>Property Price Predictor</title>
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles0.css') }}">
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- External JS -->
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+<!-- Header/Navbar -->
+<header>
+    <!-- Navbar Styles -->
+<nav class="navbar">
+  <div class="container">
+    <!-- Logo Section -->
+    <div class="logo">
+      <a href="#">Property Price Predictor</a>
+    </div>
+
+    <!-- Navbar Links -->
+    <ul class="nav-links">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+
+    <!-- Login Button -->
+    <div class="login-btn">
+      <a href="{{ url_for('login') }}" class="cta-btn">Login</a>
+    </div>
+  </div>
+</nav>
+</header>
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>Predict Property Prices with Perfect Accuracy</h1>
+        <p>Use our advanced algorithm to predict property prices with high precision.</p>
+        <a href="{{ url_for('signup') }}" class="cta-btn">Get Started</a>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+    <div class="container">
+        <div class="feature">
+            <i class="fas fa-search"></i>
+            <h3>Search for Properties</h3>
+            <p>Explore properties based on your preferences and get accurate predictions for their prices.</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-chart-line"></i>
+            <h3>Market Trends</h3>
+            <p>Get insights into market trends and property price predictions in various locations.</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-user"></i>
+            <h3>Personalized Dashboard</h3>
+            <p>Create an account to manage your predictions, track progress, and save your searches.</p>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="about" id="about">
+    <div class="container">
+        <h2>About Us</h2>
+        <p>We are dedicated to helping you find the best property deals based on your preferences and needs. Our property price prediction tool uses advanced algorithms to give you accurate pricing insights for various properties in your desired locations.</p>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="contact" id="contact">
+    <div class="container">
+        <h2>Contact Us</h2>
+        <form action="#" method="POST" class="contact-form">
+            <div class="form-group">
+                <label for="name">Your Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter your name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Your Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Your Message</label>
+                <textarea id="message" name="message" placeholder="Write your message" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Send Message</button>
+        </form>
+    </div>
+</section>
+
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <!-- Column 1: Social Media Links -->
+      <div class="footer-column social-links">
+        <h3>Follow Us</h3>
+        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+      </div>
+
+      <!-- Column 2: Footer Links -->
+      <div class="footer-column footer-links">
+        <h3>Quick Links</h3>
+        <a href="about.html">About Us</a>
+        <a href="faq.html">FAQs</a>
+        <a href="terms.html">Terms of Service</a>
+        <a href="privacy.html">Privacy Policy</a>
+      </div>
+
+      <!-- Column 3: Newsletter Subscription -->
+      <div class="footer-column newsletter">
+        <h3>Subscribe</h3>
+        <form>
+          <input type="email" placeholder="Enter your email" required>
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Bottom Footer Text -->
+    <div class="footer-bottom">
+      <div class="decorative-line"></div>
+      <p>&copy; 2024 Property Price Predictor. All rights reserved.</p>
+      <div class="decorative-circles">
+        <span class="decorative-circle"></span>
+        <span class="decorative-circle"></span>
+        <span class="decorative-circle"></span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+</body>
+</html>

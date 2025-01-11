@@ -1,0 +1,182 @@
+/* CSS Reset and Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f0f4f8; /* Soft background */
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 220px;
+    background-color: #f4f4f4; /* Light grey */
+    color: #333;
+    padding: 20px 10px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: 700;
+    text-align: center;
+    background: linear-gradient(45deg, #ff6b6b, #ffed5f);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+}
+.logo:hover {
+    transform: scale(1.05); /* Slight zoom on hover */
+}
+
+.sidebar nav ul {
+    list-style: none;
+}
+
+.sidebar nav ul li {
+    margin: 15px 0;
+}
+
+.sidebar nav ul li a {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    font-size: 14px;
+    color: #333;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: 0.3s;
+    gap: 10px; /* Small gap between the icon and text */
+}
+
+.sidebar nav ul li a:hover {
+    background-color: #f0f0f0;
+    transform: scale(1.05); /* Slight zoom on hover */
+}
+
+/* Main Content */
+.main-content {
+    margin-left: 220px;
+    padding: 20px;
+}
+section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 12px; /* Increased border-radius for a softer look */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* House Cards */
+.house-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.house-card {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    transition: 0.2s;
+}
+
+.house-card:hover {
+    transform: translateY(-5px);
+}
+
+.house-title {
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.house-price {
+    font-size: 1em;
+    color: #27ae60;
+}
+
+/* Pagination */
+.pagination button {
+    background-color: #008080;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.pagination button:hover {
+    background-color: #005757;
+}
+
+/* User Info & Notifications */
+.user-info {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 14px;
+}
+
+.notification-icon {
+    cursor: pointer;
+    position: relative;
+}
+
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ff6b6b;
+    color: white;
+    border-radius: 50%;
+    font-size: 12px;
+    padding: 5px;
+}
+
+/* Logout Button */
+.logout-container {
+    margin-top: auto;
+    text-align: center;
+}
+
+.logout {
+    background-color: #ff6b6b;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.logout:hover {
+    background-color: #e63946;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .house-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .house-container {
+        grid-template-columns: 1fr;
+    }
+}

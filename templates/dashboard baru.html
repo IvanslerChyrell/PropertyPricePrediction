@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Property Predictor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        /* General styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f7f7f7;
+            color: #333;
+            height: 100vh;
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background-color: #007bff;
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            padding: 20px 10px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar .logo {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .sidebar nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar nav ul li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar nav ul li a i {
+            margin-right: 10px;
+        }
+
+        .logout-container {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .logout {
+            background-color: #ff4d4d;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 270px;
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        /* Notification Container */
+        .notification-container {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .notification-icon {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .notification-icon .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 3px 6px;
+            font-size: 10px;
+        }
+
+        /* Notification Dropdown */
+        .notification-dropdown {
+            display: none;
+            position: absolute;
+            top: 30px;
+            right: 0;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 230px;
+            border-radius: 6px;
+            padding: 8px;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .notification-dropdown.active {
+            display: block;
+        }
+
+        .notification-dropdown ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .notification-dropdown li {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        /* Welcome Video Section */
+        .welcome-video-section {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .welcome-section, video {
+            flex: 1;
+        }
+
+        video {
+            max-width: 100%;
+            height: 200px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Property Listings */
+        .house-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .house-card {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            flex: 1 1 calc(33.333% - 20px);
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .pagination-btn {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            Property Price Predictor
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="/Sprediction"><i class="fas fa-save"></i> Saved Prediction</a></li>
+                <li><a href="/prediction"><i class="fas fa-chart-line"></i> Prediction</a></li>
+                <li><a href="/setting"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="/feedback"><i class="fas fa-comment-dots"></i> Feedback</a></li>
+            </ul>
+        </nav>
+        <div class="logout-container">
+            <button class="logout" onclick="logout()">Logout</button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="notification-container">
+            <div class="welcome-message">
+                Welcome, <span class="username">{{ user_name }}!</span>
+            </div>
+            <div class="notification-icon" onclick="toggleNotifications()">
+                <i class="fas fa-bell"></i>
+                <span class="badge" id="notification-badge">{{ unread_count }}</span>
+            </div>
+            <div class="notification-dropdown" id="notification-dropdown">
+                <ul>
+                    {% for notification in notifications %}
+                    <li id="notification-{{ notification.id }}"
+                        class="{{ 'read' if notification.is_read else 'unread' }}"
+                        onclick="markAsRead({{ notification.id }})">
+                        {{ notification.message }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <h1>Dashboard Overview</h1>
+
+        <!-- Flexbox layout for welcome and video -->
+        <section class="welcome-video-section">
+            <!-- Welcome Section -->
+            <div class="welcome-section">
+                <h2>Welcome, {{ user_name }}!</h2>
+                <p>We're glad to have you on board! Our dashboard is designed to help you predict property prices easily. If you're new to property price predictions, don't worry. We've got a tutorial video that will guide you.</p>
+            </div>
+
+            <!-- Video Section -->
+            <div>
+                <h2 class="video-title">Tutorial Video</h2>
+                <video controls autoplay loop muted>
+                    <source src="{{ url_for('static', filename='videos/tutorial.mp4') }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </section>
+
+        <!-- Property Listings -->
+        <section>
+            <h2>Property Listings</h2>
+            <div class="house-container">
+                {% for house in houses %}
+                <div class="house-card">
+                    <i class="fas fa-home house-icon"></i>
+                    <div class="house-details">
+                        <p class="house-title">Property {{ global_index_start + loop.index0 }}</p>
+                        <p class="house-location">{{ house['Location'] }}</p>
+                        <p class="house-price">{{ house['Price'] }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                {% if page > 1 %}
+                <a href="{{ url_for('dashboard', page=page-1) }}" class="pagination-btn">Previous</a>
+                {% endif %}
+                <span>Page {{ page }} of {{ total_pages }}</span>
+                {% if page < total_pages %}
+                <a href="{{ url_for('dashboard', page=page+1) }}" class="pagination-btn">Next</a>
+                {% endif %}
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Toggle notification dropdown
+        function toggleNotifications() {
+            const dropdown = document.getElementById('notification-dropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        // Mark notification as read
+        function markAsRead(notificationId) {
+            const notification = document.getElementById('notification-' + notificationId);
+            notification.classList.remove('unread');
+            notification.classList.add('read');
+            const badge = document.getElementById('notification-badge');
+            let count = parseInt(badge.textContent);
+            badge.textContent = count > 0 ? count - 1 : 0;
+        }
+
+        // Simulate logout function
+        function logout() {
+            window.location.href = "/logout";
+        }
+    </script>
+</body>
+</html>

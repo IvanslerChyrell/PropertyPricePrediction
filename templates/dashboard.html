@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Property Predictor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        /* General styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f7f7f7;
+            color: #333;
+            height: 100vh;
+            scroll-behavior: smooth;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding-top: 100px; /* Adjusted for fixed header */
+            padding: 15px;
+        }
+
+        /* Welcome to Dashboard */
+        .main-content h1 {
+            font-size: 30px;
+            margin-bottom: 15px;
+            color: #454545;
+        }
+
+        /* Pagination Container */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        /* Pagination Button */
+        .pagination-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 8px 15px;
+            font-size: 14px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Pagination Button Hover Effect */
+        .pagination-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Disabled Buttons */
+        .pagination-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Notification and Welcome */
+.notification-container {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 10px;
+    z-index: 1000;
+}
+
+.welcome-message {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+}
+
+.username {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Notification Icon */
+.notification-icon {
+    position: relative;
+    cursor: pointer;
+    color: #ff6b6b;
+}
+
+.notification-icon .badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 3px 6px;
+    font-size: 10px;
+}
+
+/* Notification Dropdown */
+.notification-dropdown {
+    display: none;
+    position: absolute;
+    top: 30px;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 230px;
+    border-radius: 6px;
+    padding: 8px;
+    max-height: 250px;
+    overflow-y: auto;
+    transition: opacity 0.3s ease-in-out;
+    opacity: 0;
+}
+
+.notification-dropdown.active {
+    display: block;
+    opacity: 1;
+}
+
+.notification-dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.notification-dropdown li {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    font-size: 12px;
+    color: #333;
+    cursor: pointer;
+}
+
+.notification-dropdown li:hover {
+    background-color: #f5f5f5;
+}
+
+.notification-dropdown .read {
+    background-color: #f0f0f0;
+}
+
+.notification-dropdown .unread {
+    font-weight: bold;
+}
+/* Flexbox layout for the welcome section and video */
+.welcome-video-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px; /* Space between the two sections */
+    margin-top: 20px;
+}
+
+/* Welcome Section Styles */
+.welcome-section {
+    flex: 1; /* Make the welcome section flexible */
+    padding:25px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Video Section */
+video {
+    flex: 1;
+    max-width: 400px; /* Limit the width of the video */
+    height: 200px; /* Ensure the height adjusts proportionally */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Video Title */
+.video-title {
+    font-size: 15px;
+    font-weight: bold;
+    color: #007bff; /* Highlight color */
+    margin-bottom: 10px;
+    background-color: #f0f8ff; /* Light background */
+    padding: 2px;
+    border-radius: 3px;
+    text-align: center;
+}
+
+
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+<header>
+    <div class="notification-container">
+        <!-- Welcome Message -->
+        <div class="welcome-message">
+            <span class="username">{{ user_name }}!</span>
+        </div>
+
+        <!-- Notification Icon -->
+        <div class="notification-icon" onclick="toggleNotifications()">
+            <i class="fas fa-bell"></i>
+            <!-- Notification Badge (Shows count of unread notifications) -->
+            <span class="badge" id="notification-badge">{{ unread_count }}</span>
+        </div>
+
+        <!-- Notification Dropdown -->
+        <div class="notification-dropdown" id="notification-dropdown">
+            <ul>
+                <!-- Loop through notifications dynamically -->
+                {% for notification in notifications %}
+                <li id="notification-{{ notification.id }}"
+                    class="{{ 'read' if notification.is_read else 'unread' }}"
+                    onclick="markAsRead({{ notification.id }})">
+                    {{ notification.message }}
+                </li>
+                {% endfor %}
+            </ul>
+
+            <!-- If no notifications -->
+            {% if not notifications %}
+            <li>No new notifications.</li>
+            {% endif %}
+        </div>
+    </div>
+</header>
+
+
+    <!-- Main Content Section -->
+    <main>
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <a href="index.html" class="logo-text">Property Price Predictor</a>
+            </div>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="/dashboard">
+                            <i class="fas fa-home"></i>
+                            <span class="nav-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/Sprediction">
+                            <i class="fas fa-save"></i>
+                            <span class="nav-text">Saved Prediction</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/prediction">
+                            <i class="fas fa-chart-line"></i>
+                            <span class="nav-text">Prediction</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/setting">
+                            <i class="fas fa-cog"></i>
+                            <span class="nav-text">Setting</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/feedback">
+                            <i class="fas fa-comment-dots"></i>
+                            <span class="nav-text">Feedback</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="logout-container">
+                <button class="logout" onclick="logout()" aria-label="Logout">Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Dashboard Content -->
+        <div class="main-content">
+            <h1>Dashboard Overview</h1>
+
+
+          <!-- Flexbox layout for welcome and video -->
+<section class="welcome-video-section">
+    <!-- Welcome, Section --><!-- Welcome, Section -->
+<div class="welcome-section">
+    <h2>Welcome, {{ user_name }}!</h2>
+    <p>We're glad to have you on board!</p>
+    <p>Our dashboard is designed to help you predict property prices easily. Enter key details such as location, size, and amenities, and our tool will provide an accurate price estimate based on those factors.</p>
+    <p>If you're new to property price predictions, don't worry. We've got a quick tutorial video that will guide you through the entire process, ensuring you get the most out of our tool.</p>
+</div>
+
+
+    <!-- Video Section (without container) -->
+    <div>
+        <h2 class="video-title">Tutorial Video</h2>
+        <video controls autoplay loop muted>
+            <source src="{{ url_for('static', filename='videos/tallboy_media--tie_the_noose.mp4') }}" type="video/mp4">
+            <source src="{{ url_for('static', filename='videos/tallboy_media--tie_the_noose.webm') }}" type="video/webm">
+            <source src="{{ url_for('static', filename='videos/tallboy_media--tie_the_noose.ogg') }}" type="video/ogg">
+            Your browser does not support the video tag or the file format is not supported.
+        </video>
+    </div>
+</section>
+
+
+
+            <!-- House Listings Section -->
+            <section class="property-listings section">
+                <div class="property-listings">
+                <h2>Property Listings</h2>
+                <div class="house-container">
+                    {% for house in houses %}
+                        <div class="house-card">
+                            <!-- Property icon -->
+                            <i class="fas fa-home house-icon"></i>
+                            <!-- Property details -->
+                            <div class="house-details">
+                                <p class="house-title">Property {{ global_index_start + loop.index0 }}</p>
+                                <p class="house-location">{{ house['Location'] }}</p>
+                                <p class="house-price">{{ house['Price'] }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination">
+                    <!-- Previous Button -->
+                    {% if page > 1 %}
+                        <a href="{{ url_for('dashboard', page=page-1) }}" class="pagination-btn">Previous</a>
+                    {% endif %}
+
+                    <!-- Page Info -->
+                    <span>Page {{ page }} of {{ total_pages }}</span>
+
+                    <!-- Next Button -->
+                    {% if page < total_pages %}
+                        <a href="{{ url_for('dashboard', page=page+1) }}" class="pagination-btn">Next</a>
+                    {% endif %}
+                </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+
+    <!-- JavaScript Section -->
+    <script>
+    // Toggle notifications dropdown visibility
+function toggleNotifications() {
+    const dropdown = document.getElementById("notification-dropdown");
+    dropdown.classList.toggle("active");
+}
+
+// Function to mark notification as read
+function markAsRead(notificationId) {
+    // Send a POST request to Flask to mark the notification as read
+    fetch(`/mark_as_read/${notificationId}`, {
+        method: 'POST',  // Use POST to update the status
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            // On success, update the notification's CSS class to "read"
+            const notificationElement = document.getElementById(`notification-${notificationId}`);
+            notificationElement.classList.remove("unread");
+            notificationElement.classList.add("read");
+
+            // Optionally update the badge count (reduce by 1)
+            const badge = document.getElementById("notification-badge");
+            let unreadCount = parseInt(badge.textContent);
+            unreadCount = Math.max(unreadCount - 1, 0);  // Ensure count doesn't go below 0
+            badge.textContent = unreadCount;
+        }
+    })
+    .catch(error => {
+        console.error("Error marking notification as read:", error);
+    });
+}
+        function displayHouses(page) {
+            const houseListContainer = document.querySelector('.house-list');
+            houseListContainer.innerHTML = '';  // Clear the container before adding new items
+
+            const start = page * housesPerPage;
+            const end = start + housesPerPage;
+            const housesToDisplay = houses.slice(start, end);
+
+            housesToDisplay.forEach(house => {
+                const houseElement = document.createElement('div');
+                houseElement.classList.add('house');
+                houseElement.innerHTML = `
+                    <h3>${house.name}</h3>
+                    <p class="price">$${house.price.toLocaleString()}</p>
+                `;
+                houseListContainer.appendChild(houseElement);
+            });
+
+            // Disable/enable the Previous and Next buttons
+            document.getElementById('prev-btn').disabled = page === 0;
+            document.getElementById('next-btn').disabled = end >= houses.length;
+        }
+
+        // Function to change the current page
+        function changePage(direction) {
+            const newPage = currentPage + direction;
+
+            if (newPage >= 0 && newPage * housesPerPage < houses.length) {
+                currentPage = newPage;
+                displayHouses(currentPage);
+            }
+        }
+
+        // Initial call to display houses on the first page
+        displayHouses(currentPage);
+
+         // Logout function
+        function logout() {
+            window.location.href = "/logout";
+        }
+
+    </script>
+
+    <!-- Include PapaParse for CSV parsing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+</body>
+</html>
