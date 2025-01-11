@@ -6,7 +6,8 @@ import mysql.connector
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 app = Flask(__name__)
-
+import os
+from dotenv import load_dotenv
 # Initialize the Flask appi
 app = Flask(__name__)
 
@@ -26,16 +27,18 @@ size_type_options = list(le_size_type.classes_)
 
 app.secret_key = 'your_secret_key'  # Secret key for flash messages
 
+# Load environment variables from .env file
+load_dotenv()
+
 # Database connection function
 def get_db_connection():
     conn = mysql.connector.connect(
-        host='localhost',
-        user='root',  # Change if necessary
-        password='',  # Your database password
-        database='property_prediction'  # Ensure the database exists
+        host=os.getenv('DB_HOST', 'localhost'),
+        user=os.getenv('DB_USER', 'root'),
+        password=os.getenv('DB_PASSWORD', ''),
+        database=os.getenv('DB_NAME', 'property_prediction')
     )
     return conn
-
 # Route for the sign-up form
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
