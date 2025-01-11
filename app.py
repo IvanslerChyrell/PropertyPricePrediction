@@ -11,11 +11,11 @@ app = Flask(__name__)
 app = Flask(__name__)
 
 # Load pre-trained model and encoders
-linear_reg_model = joblib.load(r'C:\Users\kucul\PycharmProjects\Propertylastupdated\18nov/linear_model.pkl')
-le_location = joblib.load(r'C:\Users\kucul\PycharmProjects\Propertylastupdated\18nov/location_encoder.pkl')
-le_property_type = joblib.load(r'C:\Users\kucul\PycharmProjects\Propertylastupdated\18nov/property_type_supergroup_encoder.pkl')
-le_furnishing = joblib.load(r'C:\Users\kucul\PycharmProjects\Propertylastupdated\18nov/furnishing_encoder.pkl')
-le_size_type = joblib.load(r'C:\Users\kucul\PycharmProjects\Propertylastupdated\18nov/size_type_encoder.pkl')
+linear_reg_model = joblib.load('18nov/linear_model.pkl')
+le_location = joblib.load('18nov/location_encoder.pkl')
+le_property_type = joblib.load('18nov/property_type_supergroup_encoder.pkl')
+le_furnishing = joblib.load('18nov/furnishing_encoder.pkl')
+le_size_type = joblib.load('18nov/size_type_encoder.pkl')
 
 # Retrieve location and other options for form dropdowns
 location_names = list(le_location.classes_)
